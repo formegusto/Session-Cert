@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import morgan from "morgan";
+import sequelize from "./models";
 
 dotenv.config();
 
@@ -20,6 +21,18 @@ class App {
   Routes() {}
 
   Start() {
+    // connect DB
+    sequelize
+      .sync({
+        force: true,
+      })
+      .then(async () => {
+        console.log("[sequelize] synchronizing success :)");
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+
     const port = process.env.PORT || "8080";
     this.app.listen(port, () => {
       console.log(`[server] start ${port} :)`);
