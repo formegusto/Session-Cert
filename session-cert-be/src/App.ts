@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import morgan from "morgan";
 import sequelize from "./models";
+import routes from "./routes";
 
 dotenv.config();
 
@@ -18,7 +19,9 @@ class App {
     this.app.use(morgan("dev"));
   }
 
-  Routes() {}
+  Routes() {
+    this.app.use(routes);
+  }
 
   Start() {
     // connect DB
