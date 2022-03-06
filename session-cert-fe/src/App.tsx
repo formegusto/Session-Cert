@@ -3,11 +3,13 @@ import api from "./api";
 import getRandomBytes from "./utils/getRandomBytes";
 import { publicEncrypt } from "crypto-browserify";
 import { Buffer } from "buffer";
+import CryptoJS from "crypto-js";
 
 function App() {
   const [certId, setCertId] = React.useState<number | null>(null);
   const [publicKey, setPublicKey] = React.useState<string | null>(null);
   const [symmetricKey, setSymmetricKey] = React.useState<string | null>(null);
+  const [encBody, setEncBody] = React.useState<string | null>(null);
 
   // 1. get public key process
   const getPublicKey = React.useCallback(async () => {
@@ -37,7 +39,8 @@ function App() {
           symmetricKey: encSymmetricKey,
         });
 
-        console.log(res);
+        const data = res.data;
+        setEncBody(data);
       } catch (err) {
         console.error(err);
       }
@@ -65,6 +68,17 @@ function App() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [publicKey, symmetricKey]);
+
+  // 3. matching encBody
+  React.useEffect(() => {
+    if (encBody) {
+      const decBodyWord = CryptoJS.AES.decrypt(encBody, symmetricKey!);
+      const decBody = JSON.parse(decBodyWord.toString(CryptoJS.enc.Utf8));
+
+      console.log(decBody);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [encBody]);
 
   return <></>;
 }
