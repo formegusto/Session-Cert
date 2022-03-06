@@ -10,6 +10,7 @@ function App() {
   const [publicKey, setPublicKey] = React.useState<string | null>(null);
   const [symmetricKey, setSymmetricKey] = React.useState<string | null>(null);
   const [encBody, setEncBody] = React.useState<string | null>(null);
+  const [decBody, setDecBody] = React.useState<any | null>(null);
 
   // 1. get public key process
   const getPublicKey = React.useCallback(async () => {
@@ -75,10 +76,23 @@ function App() {
       const decBodyWord = CryptoJS.AES.decrypt(encBody, symmetricKey!);
       const decBody = JSON.parse(decBodyWord.toString(CryptoJS.enc.Utf8));
 
-      console.log(decBody);
+      setDecBody(decBody);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [encBody]);
+
+  // 4. request establish
+  React.useEffect(() => {
+    if (decBody) {
+      const encBody = CryptoJS.AES.encrypt(
+        JSON.stringify(decBody),
+        symmetricKey!
+      ).toString();
+
+      api["sessionCert"].patchEstablish(certId!, encBody);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [decBody]);
 
   return <></>;
 }

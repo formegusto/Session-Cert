@@ -19,6 +19,7 @@ class App {
   SetMW() {
     this.app.use(morgan("dev"));
     this.app.use(cors());
+    this.app.use(express.text());
     this.app.use(express.json());
   }
 

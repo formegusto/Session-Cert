@@ -4,7 +4,7 @@ import getRandomBytes from "../../utils/getRandomBytes";
 import { _generateKeyPair } from "../../utils/_generateKeyPair";
 import { createPrivateKey, privateDecrypt } from "crypto";
 import { SessionStatus } from "../../models/sessionCert/types";
-import { AES } from "crypto-js";
+import CryptoJS from "crypto-js";
 
 class SessionCertRoutes {
   routes: express.Router;
@@ -82,13 +82,48 @@ class SessionCertRoutes {
             testString,
           };
           console.log("original :", resBody);
-          const encResBody = AES.encrypt(
+          const encResBody = CryptoJS.AES.encrypt(
             JSON.stringify(resBody),
             _symmetricKey
           ).toString();
           console.log("encrpyt :", encResBody);
 
           return res.status(201).send(encResBody);
+        } catch (err) {
+          return next(err);
+        }
+      }
+    );
+
+    this.routes.patch(
+      "/establish",
+      async (
+        req: express.Request,
+        res: express.Response,
+        next: express.NextFunction
+      ) => {
+        const encBody = req.body;
+
+        try {
+          const id = req.headers["session-cert-id"];
+
+          if (!id) {
+            throw new Error("인증서 ID가 공란입니다.");
+          }
+          const sessionCert = await SessionCertModel.findByPk(id.toString());
+          if (!sessionCert) {
+            throw new Error("존재하지 않는 인증서 번호입니다.");
+          }
+
+          const { symmetricKey } = sessionCert;
+          const decBodyWord = CryptoJS.AES.decrypt(encBody, symmetricKey);
+          const decBody = JSON.parse(decBodyWord.toString(CryptoJS.enc.Utf8));
+
+          console.log(decBody);
+
+          return res.status(200).json({
+            status: true,
+          });
         } catch (err) {
           return next(err);
         }
