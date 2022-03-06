@@ -82,6 +82,19 @@ function App() {
   }, [encBody]);
 
   // 4. request establish
+  const patchEstablish = React.useCallback(
+    async (encBody: string) => {
+      try {
+        const res = await api["sessionCert"].patchEstablish(certId!, encBody);
+
+        console.log(res);
+      } catch (err) {
+        console.error(err);
+      }
+    },
+    [certId]
+  );
+
   React.useEffect(() => {
     if (decBody) {
       const encBody = CryptoJS.AES.encrypt(
@@ -89,7 +102,7 @@ function App() {
         symmetricKey!
       ).toString();
 
-      api["sessionCert"].patchEstablish(certId!, encBody);
+      patchEstablish(encBody);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [decBody]);

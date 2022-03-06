@@ -115,15 +115,19 @@ class SessionCertRoutes {
             throw new Error("존재하지 않는 인증서 번호입니다.");
           }
 
-          const { symmetricKey } = sessionCert;
+          const { symmetricKey, testString } = sessionCert;
           const decBodyWord = CryptoJS.AES.decrypt(encBody, symmetricKey);
           const decBody = JSON.parse(decBodyWord.toString(CryptoJS.enc.Utf8));
 
-          console.log(decBody);
-
-          return res.status(200).json({
-            status: true,
-          });
+          const { testString: _testString } = decBody;
+          if (testString === _testString) {
+            return res.status(200).json({
+              status: true,
+              message: "session cert 설정이 완료되었습니다.",
+            });
+          } else {
+            throw new Error("테스트 문자열이 일치하지 않습니다.");
+          }
         } catch (err) {
           return next(err);
         }
