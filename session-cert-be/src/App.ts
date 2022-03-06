@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import morgan from "morgan";
 import sequelize from "./models";
 import routes from "./routes";
+import cors from "cors";
 
 dotenv.config();
 
@@ -17,6 +18,7 @@ class App {
 
   SetMW() {
     this.app.use(morgan("dev"));
+    this.app.use(cors());
   }
 
   Routes() {
