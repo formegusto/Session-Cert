@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 import { Sequelize } from "sequelize";
-import SessionCertModel from "./sessionCert.ts";
+import SessionCertModel from "./sessionCert";
 
 dotenv.config();
 
