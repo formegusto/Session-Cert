@@ -1,8 +1,12 @@
-import { Typography } from "antd";
+import { Button, Typography } from "antd";
 
 const { Title, Paragraph } = Typography;
 
-function GenerateSymmetricKeyComponent() {
+type Props = {
+  generateSymmetricKey?: () => void;
+};
+
+function GenerateSymmetricKeyComponent({ generateSymmetricKey }: Props) {
   return (
     <>
       <Title
@@ -18,6 +22,9 @@ function GenerateSymmetricKeyComponent() {
         공개키로 암호화 되었기 때문에, 서버가 가지고 있는 비밀키로만 복호화가
         가능합니다.
       </Paragraph>
+      <Button type="primary" onClick={generateSymmetricKey}>
+        대칭키 생성 및 등록
+      </Button>
     </>
   );
 }

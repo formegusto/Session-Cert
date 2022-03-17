@@ -1,6 +1,6 @@
 import { SessionCertStep } from "./types";
 import EncCommunicationComponent from "../../components/EncCommunicationComponent";
-import GenerateSymmetricKeyComponent from "../../components/GenerateSymmetricKeyComponent";
+import GenerateSymmetricKeyContainer from "../../containers/GenerateSymmetricKeyContainer";
 import GetPublicKeyContainer from "../../containers/GetPublicKeyContainer";
 import MatchingEncBodyComponent from "../../components/MatchingEncBodyComponent";
 import RequestEstablishComponent from "../../components/RequestEstablishComponent";
@@ -23,7 +23,7 @@ class UIStore {
       },
       {
         title: "대칭키 생성",
-        content: GenerateSymmetricKeyComponent(),
+        content: <GenerateSymmetricKeyContainer />,
       },
       {
         title: "암호화 데이터 비교",
