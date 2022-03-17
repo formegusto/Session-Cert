@@ -9,8 +9,18 @@ const { Title, Paragraph } = Typography;
 type Props = {
   requestData?: string;
   encryptText?: (text: string) => void;
+  apiTest?: () => void;
+  responseData?: string;
+  decryptText?: () => void;
 };
-function EncCommunicationComponent({ requestData, encryptText }: Props) {
+
+function EncCommunicationComponent({
+  requestData,
+  encryptText,
+  apiTest,
+  responseData,
+  decryptText,
+}: Props) {
   const [text, setText] = React.useState<string>("");
 
   const changeText = React.useCallback(
@@ -56,34 +66,38 @@ function EncCommunicationComponent({ requestData, encryptText }: Props) {
             style={{
               wordBreak: "break-all",
             }}
-            extra={requestData && <Button type="text">전송하기</Button>}
+            extra={
+              requestData && (
+                <Button type="text" onClick={apiTest}>
+                  전송하기
+                </Button>
+              )
+            }
           >
             {requestData}
           </Card>
         </Col>
-        <Col
-          span={8}
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "flex-end",
-          }}
-        >
+        <Col span={8}>
           <Card
             title="응답"
-            style={{
-              width: "100%",
-              wordBreak: "break-all",
-            }}
-          ></Card>
-          <Button
-            type="primary"
-            style={{
-              margin: "8px 0 0",
-            }}
+            extra={
+              responseData && (
+                <Button type="text" onClick={decryptText}>
+                  복호화하기
+                </Button>
+              )
+            }
           >
-            복호화하기
-          </Button>
+            <pre
+              style={{
+                width: "100%",
+                wordBreak: "break-all",
+                whiteSpace: "pre-wrap",
+              }}
+            >
+              {responseData}
+            </pre>
+          </Card>
         </Col>
       </Row>
     </>
@@ -94,5 +108,8 @@ export default inject(
   ({ apiTestStore }: RootStore): Props => ({
     requestData: apiTestStore.requestData,
     encryptText: apiTestStore.encryptText,
+    apiTest: apiTestStore.apiTest,
+    responseData: apiTestStore.responseData,
+    decryptText: apiTestStore.decryptText,
   })
 )(observer(EncCommunicationComponent));
