@@ -6,6 +6,7 @@ import getRandomBytes from "../../utils/getRandomBytes";
 import { SessionCert } from "./types";
 import { publicEncrypt } from "crypto-browserify";
 import { Buffer } from "buffer";
+import CryptoJS from "crypto-js";
 
 class SessionCertStore {
   root: RootStore;
@@ -13,10 +14,12 @@ class SessionCertStore {
   publicKey?: string;
   symmetricKey?: string;
   encBody?: string;
+  estabilish: boolean;
 
   constructor(root: RootStore) {
     makeAutoObservable(this, {}, { autoBind: true });
     this.root = root;
+    this.estabilish = false;
   }
 
   *getPublicKey(): Generator {
@@ -52,6 +55,26 @@ class SessionCertStore {
       });
 
       this.encBody = (res as AxiosResponse<string>).data;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  *matchingEncBody(): Generator {
+    try {
+      const decBodyWord = CryptoJS.AES.decrypt(
+        this.encBody!,
+        this.symmetricKey!
+      );
+      const decBody = JSON.parse(decBodyWord.toString(CryptoJS.enc.Utf8));
+      const encBody = CryptoJS.AES.encrypt(
+        JSON.stringify(decBody),
+        this.symmetricKey!
+      ).toString();
+
+      const res = yield api["sessionCert"].patchEstablish(this.id!, encBody);
+
+      if ((res as AxiosResponse<any>).data.status) this.estabilish = true;
     } catch (err) {
       console.error(err);
     }

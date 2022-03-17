@@ -1,8 +1,12 @@
-import { Typography } from "antd";
+import { Button, Typography } from "antd";
 
 const { Title, Paragraph } = Typography;
 
-function MatchingEncBodyComponent() {
+type Props = {
+  matchingEncBody?: () => void;
+};
+
+function MatchingEncBodyComponent({ matchingEncBody }: Props) {
   return (
     <>
       <Title
@@ -19,6 +23,9 @@ function MatchingEncBodyComponent() {
         방금 생성한 대칭키를 이용하여, 이를 풀고 다시 암호화하여, 서로 같은
         대칭키를 가지고 있다는 것을 증명합니다.
       </Paragraph>
+      <Button type="primary" onClick={matchingEncBody}>
+        암호화 데이터 비교하기
+      </Button>
     </>
   );
 }

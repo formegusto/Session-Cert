@@ -1,8 +1,14 @@
-import { Typography } from "antd";
+import { Button, Typography } from "antd";
+import { inject, observer } from "mobx-react";
+import RootStore from "../store";
 
 const { Title, Paragraph } = Typography;
 
-function RequestEstablishComponent() {
+type Props = {
+  nextStep?: () => void;
+};
+
+function RequestEstablishComponent({ nextStep }: Props) {
   return (
     <>
       <Title
@@ -18,8 +24,15 @@ function RequestEstablishComponent() {
         <br />
         지금부터 서버와의 API 통신은 암호화 통신으로 진행됩니다.
       </Paragraph>
+      <Button type="primary" onClick={nextStep}>
+        통신 테스트 하러 가기
+      </Button>
     </>
   );
 }
 
-export default RequestEstablishComponent;
+export default inject(
+  ({ uiStore }: RootStore): Props => ({
+    nextStep: uiStore.nextStep,
+  })
+)(observer(RequestEstablishComponent));
