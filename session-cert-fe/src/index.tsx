@@ -3,8 +3,17 @@ import ReactDOM from "react-dom";
 import reportWebVitals from "./reportWebVitals";
 import "./index.css";
 import ImsiApp from "./ImsiApp";
+import RootStore from "./store";
+import { Provider } from "mobx-react";
 
-ReactDOM.render(<ImsiApp />, document.getElementById("root"));
+const store = new RootStore();
+
+ReactDOM.render(
+  <Provider {...store}>
+    <ImsiApp />
+  </Provider>,
+  document.getElementById("root")
+);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

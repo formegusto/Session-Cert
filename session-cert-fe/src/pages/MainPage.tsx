@@ -1,10 +1,10 @@
-import SessionCertStepsComponent from "../components/SessionCertStepsComponent";
+import SessionCertSteps from "../components/SessionCertSteps";
 import BaseTemplate from "../templates/BaseTemplate";
 
 function MainPage() {
   return (
     <BaseTemplate>
-      <SessionCertStepsComponent />
+      <SessionCertSteps />
     </BaseTemplate>
   );
 }
