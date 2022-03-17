@@ -1,4 +1,4 @@
-import { Button, Steps } from "antd";
+import { Steps } from "antd";
 import { Row, Col } from "antd";
 import { inject, observer } from "mobx-react";
 import RootStore from "../store";
@@ -9,10 +9,9 @@ const { Step } = Steps;
 type Props = {
   steps?: SessionCertStep[];
   step?: number;
-  nextStep?: () => void;
 };
 
-function SessionCertSteps({ steps, step, nextStep }: Props) {
+function SessionCertSteps({ steps, step }: Props) {
   return (
     <>
       <Row>
@@ -29,18 +28,10 @@ function SessionCertSteps({ steps, step, nextStep }: Props) {
       >
         {steps![step!].content}
       </Col>
-      <Row>
-        {step! + 1 !== steps!.length && (
-          <Button type="primary" onClick={nextStep}>
-            Next
-          </Button>
-        )}
-      </Row>
     </>
   );
 }
 
 export default inject(({ uiStore }: RootStore) => ({
   ...uiStore,
-  nextStep: uiStore.nextStep,
 }))(observer(SessionCertSteps));

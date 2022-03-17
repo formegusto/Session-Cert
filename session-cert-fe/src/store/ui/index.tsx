@@ -1,7 +1,7 @@
 import { SessionCertStep } from "./types";
 import EncCommunicationComponent from "../../components/EncCommunicationComponent";
 import GenerateSymmetricKeyComponent from "../../components/GenerateSymmetricKeyComponent";
-import GetPublicKeyComponent from "../../components/GetPublicKeyComponent";
+import GetPublicKeyContainer from "../../containers/GetPublicKeyContainer";
 import MatchingEncBodyComponent from "../../components/MatchingEncBodyComponent";
 import RequestEstablishComponent from "../../components/RequestEstablishComponent";
 import { makeAutoObservable } from "mobx";
@@ -19,7 +19,7 @@ class UIStore {
     this.steps = [
       {
         title: "공개키 요청",
-        content: GetPublicKeyComponent(),
+        content: <GetPublicKeyContainer />,
       },
       {
         title: "대칭키 생성",
