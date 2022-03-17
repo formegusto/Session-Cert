@@ -7,20 +7,22 @@ type Props = {
   nextStep?: () => void;
   matchingEncBody?: () => void;
   establish?: boolean;
+  duration?: number;
 };
 
 function MatchingEncBodyContainer({
   matchingEncBody,
   nextStep,
   establish,
+  duration,
 }: Props) {
   React.useEffect(() => {
     if (establish) {
       setTimeout(() => {
         nextStep!();
-      }, 1500);
+      }, duration);
     }
-  }, [establish, nextStep]);
+  }, [establish, nextStep, duration]);
 
   return <MatchingEncBodyComponent matchingEncBody={matchingEncBody} />;
 }
@@ -30,5 +32,6 @@ export default inject(
     nextStep: uiStore.nextStep,
     matchingEncBody: sessionCertStore.matchingEncBody,
     establish: sessionCertStore.estabilish,
+    duration: sessionCertStore.duration,
   })
 )(observer(MatchingEncBodyContainer));

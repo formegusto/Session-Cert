@@ -15,11 +15,13 @@ class SessionCertStore {
   symmetricKey?: string;
   encBody?: string;
   estabilish: boolean;
+  duration: number;
 
   constructor(root: RootStore) {
     makeAutoObservable(this, {}, { autoBind: true });
     this.root = root;
     this.estabilish = false;
+    this.duration = 500;
   }
 
   *getPublicKey(): Generator {

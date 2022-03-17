@@ -1,11 +1,9 @@
 import { Button, Typography } from "antd";
-import { inject, observer } from "mobx-react";
-import RootStore from "../store";
 
 const { Title, Paragraph } = Typography;
 
 type Props = {
-  nextStep?: () => void;
+  nextStep: () => void;
 };
 
 function RequestEstablishComponent({ nextStep }: Props) {
@@ -31,8 +29,4 @@ function RequestEstablishComponent({ nextStep }: Props) {
   );
 }
 
-export default inject(
-  ({ uiStore }: RootStore): Props => ({
-    nextStep: uiStore.nextStep,
-  })
-)(observer(RequestEstablishComponent));
+export default RequestEstablishComponent;

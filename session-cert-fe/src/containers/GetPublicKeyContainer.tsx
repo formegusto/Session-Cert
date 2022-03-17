@@ -8,27 +8,32 @@ type Props = {
   publicKey?: string;
   getPublicKey?: () => void;
   nextStep?: () => void;
+  duration?: number;
 };
 function GetPublicKeyContainer({
   id,
   publicKey,
   getPublicKey,
   nextStep,
+  duration,
 }: Props) {
   React.useEffect(() => {
     if (id && publicKey) {
       setTimeout(() => {
         nextStep!();
-      }, 1500);
+      }, duration!);
     }
-  }, [id, publicKey, nextStep]);
+  }, [id, publicKey, nextStep, duration]);
 
   return <GetPublicKeyComponent getPublicKey={getPublicKey} />;
 }
 
-export default inject(({ sessionCertStore, uiStore }: RootStore) => ({
-  nextStep: uiStore.nextStep,
-  id: sessionCertStore.id,
-  publicKey: sessionCertStore.publicKey,
-  getPublicKey: sessionCertStore.getPublicKey,
-}))(observer(GetPublicKeyContainer));
+export default inject(
+  ({ sessionCertStore, uiStore }: RootStore): Props => ({
+    nextStep: uiStore.nextStep,
+    id: sessionCertStore.id,
+    publicKey: sessionCertStore.publicKey,
+    getPublicKey: sessionCertStore.getPublicKey,
+    duration: sessionCertStore.duration,
+  })
+)(observer(GetPublicKeyContainer));

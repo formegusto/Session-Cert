@@ -7,20 +7,22 @@ type Props = {
   generateSymmetricKey?: () => void;
   encBody?: string;
   nextStep?: () => void;
+  duration?: number;
 };
 
 function GenerateSymmetricKeyContainer({
   generateSymmetricKey,
   encBody,
   nextStep,
+  duration,
 }: Props) {
   React.useEffect(() => {
     if (encBody) {
       setTimeout(() => {
         nextStep!();
-      }, 1500);
+      }, duration!);
     }
-  }, [encBody, nextStep]);
+  }, [encBody, nextStep, duration]);
 
   return (
     <GenerateSymmetricKeyComponent
@@ -34,5 +36,6 @@ export default inject(
     nextStep: uiStore.nextStep,
     encBody: sessionCertStore.encBody,
     generateSymmetricKey: sessionCertStore.generateSymmetricKey,
+    duration: sessionCertStore.duration,
   })
 )(observer(GenerateSymmetricKeyContainer));

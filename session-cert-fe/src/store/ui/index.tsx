@@ -3,7 +3,7 @@ import EncCommunicationComponent from "../../components/EncCommunicationComponen
 import GenerateSymmetricKeyContainer from "../../containers/GenerateSymmetricKeyContainer";
 import GetPublicKeyContainer from "../../containers/GetPublicKeyContainer";
 import MatchingEncBodyContainer from "../../containers/MatchingEncBodyContainer";
-import RequestEstablishComponent from "../../components/RequestEstablishComponent";
+import RequestEstablishContainer from "../../containers/RequestEstablishContainer";
 import { makeAutoObservable } from "mobx";
 import RootStore from "..";
 
@@ -31,11 +31,11 @@ class UIStore {
       },
       {
         title: "암호화 통신 확립",
-        content: <RequestEstablishComponent />,
+        content: <RequestEstablishContainer />,
       },
       {
         title: "통신 테스트",
-        content: EncCommunicationComponent(),
+        content: <EncCommunicationComponent />,
       },
     ];
   }
