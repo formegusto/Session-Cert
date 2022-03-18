@@ -1,6 +1,6 @@
 import express from "express";
-import decryptBody from "../middlewares/decryptBody";
 import encryptBody from "../middlewares/encryptBody";
+import decryptBody from "../middlewares/decryptBody";
 import apiTest from "./apiTest";
 import sessionCert from "./sessionCert";
 
@@ -14,7 +14,7 @@ class _Routes {
 
   SetRoutes() {
     this.routes.use("/sessionCert", sessionCert);
-    this.routes.use("/apiTest", encryptBody, apiTest, decryptBody);
+    this.routes.use("/apiTest", decryptBody, apiTest, encryptBody);
   }
 }
 

@@ -7,25 +7,22 @@ export default async function encryptBody(
   res: express.Response,
   next: express.NextFunction
 ) {
-  try {
-    const certId = req.headers["session-cert-id"];
+  const body = res.body;
+  const certId = req.headers["session-cert-id"];
 
-    if (certId) {
-      const sessionCert = await SessionCertModel.findByPk(
-        parseInt(certId as string)
-      );
+  if (body && certId) {
+    const bodyStr = JSON.stringify(body);
+    const sessionCert = await SessionCertModel.findByPk(
+      parseInt(certId as string)
+    );
 
-      const symmetricKey = sessionCert?.symmetricKey;
-      const encBody = req.body;
-      const decBody = CryptoJS.AES.decrypt(encBody, symmetricKey!);
+    const symmetricKey = sessionCert?.symmetricKey;
+    const encBody = CryptoJS.AES.encrypt(bodyStr, symmetricKey!).toString();
 
-      req.body = decBody.toString(CryptoJS.enc.Utf8);
-    } else {
-      throw new Error();
-    }
-  } catch (err) {
-    return next(err);
+    return res.status(200).send(encBody);
   }
 
-  return next();
+  return res.status(403).json({
+    status: false,
+  });
 }
