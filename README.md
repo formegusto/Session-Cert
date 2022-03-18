@@ -5,11 +5,11 @@
 # 1. 개요
 
 - **http 통신의 문제점**
-  ![Untitled](https://user-images.githubusercontent.com/52296323/158989051-6fbc73e9-8a8c-4f85-9d3a-912f508a665e.png)
+![Untitled](https://user-images.githubusercontent.com/52296323/158989051-6fbc73e9-8a8c-4f85-9d3a-912f508a665e.png)
   - 일반적인 http 통신의 가장 큰 문제점은 packet에 body로 담았던 데이터가 고스란히 보인다는 단점을 가진다. ( Sniffing 공격에 취약하다. )
   → 그래서 실제로 서비스 되고 있는 웹 서비스들은 사용자의 개인정보와 같은 민감데이터를 보호하기 위하여 https프로토콜로 암호화 통신을 한다.
 - **Client Side 에서의 Key관리 문제점**
-  ![Untitled 1](https://user-images.githubusercontent.com/52296323/158989069-9c9cbd45-9a6f-4df5-967b-2b5152a8f614.png)
+![Untitled 1](https://user-images.githubusercontent.com/52296323/158989069-9c9cbd45-9a6f-4df5-967b-2b5152a8f614.png)
   - 필자는 자바스크립트를 이용하기 때문에 .env 파일을 예로 들어 설명하자면, 우리가 외부에 소스를 올릴 때, 민감 키 값, 예로들면 암호화 통신을 위해 사용하는 키를 감추기 위해 .env 파일을 이용한다.
   - 하지만 이와 같이 특정 파일에 키를 넣고, 이를 읽는 방식은 소스 상에서는 숨겼지만, 정작 사용자에게 최종적으로 전송되는 웹 페이지에서는 노출이 된다는 것 이다. 즉, 하드코딩의 방식과 차이가 없다는 것 이다.
   → 그래서 서버에 키를 저장하고, client side에서 이 키를 사용해야 할 때 요청해서 변수에 담아놓고,(사용자의 메모리) 이용을 하기도 한다. 하지만 이도 HTTP를 이용하고 있다면, 패킷 상에 노출이 되는 정보 중에 하나이기 때문에 HTTPS 통신이 아니면 이도 보안상의 의미가 없어진다.
